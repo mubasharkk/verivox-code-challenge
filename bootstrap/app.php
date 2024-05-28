@@ -28,4 +28,15 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         });
+
+        $exceptions->render(function (
+            InvalidArgumentException $ex,
+            Request $request
+        ) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'error' => $ex->getMessage(),
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        });
     })->create();
