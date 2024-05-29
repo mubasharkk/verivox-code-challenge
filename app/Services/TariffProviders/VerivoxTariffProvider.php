@@ -38,14 +38,7 @@ class VerivoxTariffProvider implements TariffProvider
                     'includedKwh'       => 4000,
                     'baseCost'          => 800,
                     'additionalKwhCost' => 30,
-                ],
-                [
-                    'name'              => 'Product C',
-                    'type'              => 3,
-                    'includedKwh'       => 4000,
-                    'baseCost'          => 800,
-                    'additionalKwhCost' => 30,
-                ],
+                ]
                 // ... You can add more tariff's data here!
             ]),
         ]);

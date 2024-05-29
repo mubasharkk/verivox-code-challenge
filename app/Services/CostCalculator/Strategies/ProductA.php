@@ -2,8 +2,6 @@
 
 namespace App\Services\CostCalculator\Strategies;
 
-use JetBrains\PhpStorm\Pure;
-
 class ProductA implements CostModelStrategy
 {
 
@@ -30,10 +28,18 @@ class ProductA implements CostModelStrategy
         return $consumptionKwh * $this->additionalKwhCost / 100;
     }
 
-    #[Pure]
     public function calculateAnnualCost(int $consumptionKwh): float
     {
         return $this->getBaseCostByMonths(12)
             + $this->getConsumedCost($consumptionKwh);
+    }
+
+    public function getCostBreakdown(int $consumptionKwh): array
+    {
+        return [
+            'total'    => $this->calculateAnnualCost($consumptionKwh),
+            'base'     => $this->getBaseCostByMonths(12),
+            'consumed' => $this->getConsumedCost($consumptionKwh),
+        ];
     }
 }

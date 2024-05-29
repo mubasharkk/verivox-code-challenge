@@ -14,12 +14,22 @@ class CostCalculatorController extends Controller
         Request $request,
         CostCalculatorService $costCalculator,
     ): JsonResponse {
-        $data = $request->validate([
+        $request->validate([
             'consumption' => 'required|integer',
+            'sort'        => 'string|in:asc,desc',
         ]);
 
-        $data = $costCalculator->getAnnualCost($data['consumption']);
+        $costCalculators = $costCalculator->getAnnualCost(
+            $request->get('consumption')
+        );
 
-        return response()->json($data);
+        $sortedResults = match ($request->get('sort')) {
+            'desc' => $costCalculators->sortByDesc('annualCost'),
+            default => $costCalculators->sortBy('annualCost')
+        };
+
+        return response()->json(
+            $sortedResults->values()->toArray()
+        );
     }
 }

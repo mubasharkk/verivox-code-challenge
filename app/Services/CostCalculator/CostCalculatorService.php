@@ -5,30 +5,21 @@ namespace App\Services\CostCalculator;
 use App\Services\CostCalculator\DTOs\AnnualCost;
 use App\Services\CostCalculator\Factories\CostModelFactory;
 use App\Services\CostCalculator\Strategies\CostModelStrategy;
+use App\Services\TariffProviders\TariffProvider;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Config;
 
 class CostCalculatorService
 {
 
-    private mixed $provider;
-
     private Collection $calculators;
 
-    public function __construct()
+    public function __construct(TariffProvider $tariffProvider)
     {
-        $this->calculators = $this->getTariffDataFromProvider();
-    }
+        $data = $tariffProvider->getTariffViaApi();
 
-    private function getTariffDataFromProvider(): Collection
-    {
-        $provider = new (Config::get('tariffs.tariff_provider'));
-
-        $data = $provider->getTariffViaApi();
-
-        return collect($data)->map(function ($tariff) {
+        $this->calculators = collect($data)->map(function ($tariff) {
             return CostModelFactory::get($tariff);
-        });
+        });;
     }
 
     public function getAnnualCost(float $consumption): Collection
@@ -37,7 +28,8 @@ class CostCalculatorService
             function (CostModelStrategy $calc) use ($consumption) {
                 return new AnnualCost(
                     tariffName: $calc->get('name'),
-                    annualCost: $calc->calculateAnnualCost($consumption)
+                    annualCost: $calc->calculateAnnualCost($consumption),
+                    costBreakDown: $calc->getCostBreakdown($consumption)
                 );
             }
         );
