@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/', fn() => ['version' => '1.0.0']);
 
-    Route::get('/consumption', [
+    Route::get('/calculate-consumption', [
         CostCalculatorController::class,
         'getAnnualEstimates',
     ]);
