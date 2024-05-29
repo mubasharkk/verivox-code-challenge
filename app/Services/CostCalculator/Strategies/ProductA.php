@@ -37,9 +37,9 @@ class ProductA implements CostModelStrategy
     public function getCostBreakdown(int $consumptionKwh): array
     {
         return [
-            'total'    => $this->calculateAnnualCost($consumptionKwh),
             'base'     => $this->getBaseCostByMonths(12),
             'consumed' => $this->getConsumedCost($consumptionKwh),
+            'total'    => $this->calculateAnnualCost($consumptionKwh),
         ];
     }
 }

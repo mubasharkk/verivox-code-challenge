@@ -36,9 +36,9 @@ class ProductB implements CostModelStrategy
         $annualCost = $this->calculateAnnualCost($consumptionKwh);
 
         return [
-            'total'    => $annualCost,
             'base'     => $this->baseCost,
             'consumed' => $annualCost - $this->baseCost,
+            'total'    => $annualCost,
         ];
     }
 }
