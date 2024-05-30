@@ -6,9 +6,9 @@
 
 Following are the technical & architectural notes:
 
-I have used some symfony component for routing and request handling.
+I have used laravel 11 as a backend framework with sail to containerize.
 
-The relevant code is in the following files or DIRs:
+The relevant code is in the following files and DIRs:
 
 * Tariff Provider configuration
     * [config/tariffs.php](config/tariffs.php)
@@ -18,6 +18,7 @@ The relevant code is in the following files or DIRs:
   * [app/Providers/AppServiceProvider.php](app/Providers/AppServiceProvider.php)
 * Services
     * [CostCalculator](app/Services/CostCalculator)
+      * ![alt text](./verivox-cost-calc-service-domain.jpeg)
     * [TariffProviders](app/Services/TariffProviders)
 * Tests Cases
     * [Unit](tests/Unit)
@@ -25,20 +26,30 @@ The relevant code is in the following files or DIRs:
 * **Bonus**:
   * GitHub-Workflow for testing has been added: [.github/workflows/laravel.yml](.github/workflows/laravel.yml)
   * Terraform AWS EC2 setup has been added: [terraform](terraform)
+    * There is still some problem with `terraform/user-data.sh` but didn't want spend too much time on it. 
 
 **Note:** For cost calculation service strategy pattern is used.
 I hope most of the code is self-explanatory. 
 There is still room for improvement and I have tried not to expand the task unnecessary.
 
-### Setup & Execution
+---
+
+## Setup & Execution
 
 The docker configuration is based on Laravel Sail
+
+#### Dependencies on host machine
+
+* [Docker](https://www.docker.com/products/docker-desktop/) 
+* [Composer](https://getcomposer.org/download/)
 
 ```console
 composer install && ./vendor/bin/sail up -d --build
 ```
 
 The server will be accessible at http://localhost
+
+---
 
 ## Routes:
 
@@ -71,7 +82,7 @@ The server will be accessible at http://localhost
 ]
 ```
 
-### Running Tests
+## Running Tests
 
 ```console
 ./vendor/bin/sail artisan test
