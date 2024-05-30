@@ -44,7 +44,13 @@ The docker configuration is based on Laravel Sail
 * [Composer](https://getcomposer.org/download/)
 
 ```console
-composer install && ./vendor/bin/sail up -d --build
+cp .env.example .env
+
+composer install
+
+./vendor/bin/sail up -d --build
+
+./vendor/bin/sail artisan key:generate
 ```
 
 The server will be accessible at http://localhost
