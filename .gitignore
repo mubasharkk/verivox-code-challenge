@@ -22,4 +22,5 @@ yarn-error.log
 /terraform/.terraform.tfstate.lock.info
 /terraform/terraform.tfstate
 /terraform/terraform.tfstate.backup
+/terraform/.terraform.lock.hcl
 
